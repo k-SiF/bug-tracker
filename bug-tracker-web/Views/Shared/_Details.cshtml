@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Ticket>
+@{
+    Ticket ticket = (Ticket)TempData["ticket"];
+}
+
+
+@if (TempData["ticket"] != null)
+{
+    <div class="card border-secondary mb-3 ">
+        <div class="card-header">Details [Ticket#@ticket.Id]</div>
+        <div class="card-body">
+            <h4 class="card-title">@ticket.Title</h4>
+            <br />
+            <div style="width:60%;float:left">
+                <p class="card-text text-wrap"><b>Author: </b>@ticket.Author</p>
+                <p class="card-text text-wrap"><b>Description: </b>@ticket.Description</p>
+                <p class="card-text text-wrap"><b>Type: </b>@ticket.Type</p>
+            </div>
+            <div style="width:40%;float:right">                  
+                <p class="card-text text-wrap"><b>Status: </b>@ticket.Status</p>
+                <p class="card-text text-wrap"><b>Priority: </b>
+                    @switch (@ticket.Priority)
+                    {
+                        case "Urgent" : <span class="badge rounded-pill bg-danger" style="transform: scale(.9)">@ticket.Priority</span> break;
+                        case "High" : <span class="badge rounded-pill bg-warning" style="transform: scale(.9)">@ticket.Priority</span> break;
+                        case "Mid" : <span class="badge rounded-pill bg-primary" style="transform: scale(.9)">@ticket.Priority</span> break;
+                        case "Low" : <span class="badge rounded-pill bg-secondary" style="transform: scale(.9)">@ticket.Priority</span> break;
+                        default: break;
+                    }</p>
+                <p class="card-text text-wrap"><b>Deadline: </b>@ticket.Deadline.GetValueOrDefault().ToShortDateString()</p>
+            </div>
+        </div>
+        <div class="card-footer">
+            <b>{</b>Assigned lead dev<b>}</b>
+            <br/>
+            -> @ticket.Developer
+        </div>
+    </div>
+} else
+{
+    <div class="card border-secondary mb-3 ">
+            <div class="card-header">Details</div>
+            <div class="card-body">
+        </div>
+    </div>
+}

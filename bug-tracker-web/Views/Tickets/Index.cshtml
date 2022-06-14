@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+<body style="background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.75) 43%, 
+                                                    rgba(33, 37, 41, .75) 43%, rgba(33, 37, 41, .75) 100%)">
+   
+<div style="margin-top: 3rem; padding: 0;display: flex;flex-flow: column;height: 100%;">
+    <div class="card bg-light p-3">
+        <div class="row pt-1">
+            <div class="col-6">
+                <h1 style="color:#485785">Ticket List</h1>
+            </div>
+            <section class="col-6 text-end">
+                <a asp-controller="Tickets" asp-action="Create" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> &nbsp; New Ticket
+                </a>
+            </section>
+        </div>
+        <br /><br />
+        <section style="width: 100%">
+            <div id="_ticketModel" style="width:50%;float:left"></div>
+            <div id="_details"  style="width:48%;float:right"></div>
+        </section>  
+    </div>   
+</div>
+</body> 
+
+@section Scripts {
+    <script>
+        $('#_ticketModel').load("/Tickets/TicketModel")
+        $('#_details').load("/Tickets/Details")
+
+        function replaceContentsOfDiv(partialViewToInsert) {
+            $.ajax({
+                url: '@Url.Action("Details", "Tickets")',
+                data: { id: partialViewToInsert},
+                type: "POST",
+                success: function(data) {
+                    $('#_details').html(data);
+                }
+            });
+        }    
+
+        function replaceModel(i) {
+            $.ajax({
+                url: '@Url.Action("TicketModel", "Tickets")',
+                data: { index: i},
+                type: "POST",
+                success: function(data) {
+                    $('#_ticketModel').html(data);
+                }
+            });
+        } 
+    </script>
+}
+

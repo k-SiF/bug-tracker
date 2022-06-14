@@ -1,0 +1,84 @@
+﻿@model TicketView
+@{
+}
+    <table class="table table-bordered table-hover table-stripped">
+        <thead>
+            <tr class="bg-dark navbar-dark">
+                <th scope="col" style="color: rgba(255, 255, 255, 0.75)">
+                    Id
+                </th>
+                <th scope="col" style="color: rgba(255, 255, 255, 0.75)">
+                    Title
+                </th>
+                <th scope="col" style="color: rgba(255, 255, 255, 0.75)">
+                    Status
+                </th>
+                <th scope="col" style="color: rgba(255, 255, 255, 0.75)">
+                    Priority
+                </th>
+                <th scope="col" style="color: rgba(255, 255, 255, 0.75)">
+                    Deadline
+                </th>
+            </tr>
+        </thead>
+        <tbody class="bg-body">
+            @foreach (var obj in Model.TicketList)
+            {
+                <tr onclick= "replaceContentsOfDiv(@obj.Id)" style="border-bottom-width:0.1rem;">
+                    <th>
+                        @Html.DisplayFor(modelItem => obj.Id)
+                    </th>
+                    <td>
+                        @Html.DisplayFor(modelItem => obj.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => obj.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => obj.Priority)
+                    </td>
+                    <td>
+                        @obj.Deadline.GetValueOrDefault().ToShortDateString()
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <ul class="pagination pagination-sm" style="margin-left:20%;margin-right:20%">   
+        
+        @if (Model.currentPageIndex - 1 > 0)
+        {
+            int prevIndex = Model.currentPageIndex - 1;
+            <li class="page-item">
+                <a class="page-link" href="javascript:replaceModel(@prevIndex);">&laquo;</a>
+            </li>
+        }
+
+        @for (int i = 1; i <= Model.pageCount; i++)
+        {
+            
+                        
+                @if (i != Model.currentPageIndex)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="javascript:replaceModel(@i);">@i</a>
+                    </li> 
+                } 
+                else
+                {
+                    <li class="page-item disabled">
+                        <a class="page-link active">@i</a>
+                    </li>
+                }
+               
+        }
+                
+        @if (Model.currentPageIndex + 1 <= Model.pageCount)
+        {
+            int nextIndex = Model.currentPageIndex + 1;
+            <li class="page-item">
+                <a class="page-link" href="javascript:replaceModel(@nextIndex);">&raquo;</a>
+            </li>
+        }
+
+    </ul>

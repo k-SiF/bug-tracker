@@ -1,0 +1,68 @@
+﻿@model Ticket
+
+<body style="background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.75) 33%, 
+                                                    rgba(33, 37, 41, .75) 33%, rgba(33, 37, 41, .75) 100%)">
+<form method="post">
+    <fieldset>
+        <div class="card border-secondary p-3 mt-4"  style="width:60%">
+            <div class="row pb-2">
+                <h2 class="card-header" style="color: #485785">Create Ticket</h2>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Author"></label>
+                <input asp-for="Author" class="form-control" />
+                <span asp-validation-for="Author" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Title"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Description"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Developer" class="form-label mt-4">Lead Dev assigned</label>
+                <select asp-for="Developer" multiple="" class="form-select">
+                    @foreach (var item in Html.GetEnumSelectList<Ticket.Developers>())
+                    {
+                        <option value="@item.Text">@item.Text</option>
+                    }
+                </select>
+                <span asp-validation-for="Developer" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Type" class="form-label mt-4">Type of ticket</label>
+                <select asp-for="Type" class="form-select">
+                    @foreach (var item in Html.GetEnumSelectList<Ticket.Types>())
+                    {
+                        <option value="@item.Text">@item.Text</option>
+                    }
+                </select>
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="col-1 mb-3">
+                <label asp-for="Priority"></label>
+                <div class="col btn-group" role="group" aria-label="Priority">
+                    @foreach (var item in Html.GetEnumSelectList<Ticket.Priorities>())
+                    {
+                        <input asp-for="Priority" type="radio" value="@item.Text" id="@item.Text" class="btn-check" autocomplete="off" checked="">
+                        <label class="btn btn-outline-primary" for="@item.Text">@item.Text</label>
+                    }
+                </div>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Deadline"></label>
+                <input asp-for="Deadline" class="form-control" />
+                <span asp-validation-for="Deadline" class="text-danger"></span>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-outline-info" style="width:150px">Create</button>
+                <a asp-controller="Tickets" asp-action="Index" class="btn" style="width:150px">Back To List</a>
+            </div>
+        </div>
+    </fieldset>
+</form>
+</body>
